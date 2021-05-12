@@ -1,8 +1,7 @@
-use std::convert::From;
-use std::error::{self, Error};
-use std::fmt;
-
 use rust_base58::ToBase58;
+use std::convert::From;
+use std::error;
+use std::fmt;
 
 use crate::blockchain::proto::opcodes;
 use crate::common::utils;
@@ -15,7 +14,7 @@ pub enum ScriptError {
 
 impl fmt::Display for ScriptError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.description())
+        write!(f, "{}", self.to_string())
     }
 }
 

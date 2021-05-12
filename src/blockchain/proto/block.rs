@@ -1,6 +1,5 @@
-use std::fmt;
-
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
+use std::fmt;
 
 use crate::blockchain::proto::header::BlockHeader;
 use crate::blockchain::proto::tx::{EvaluatedTx, RawTx};

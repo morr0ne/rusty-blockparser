@@ -10,6 +10,7 @@ use crate::blockchain::parser::types::{Bitcoin, CoinType};
 use crate::blockchain::parser::BlockchainParser;
 use crate::callbacks::balances::Balances;
 use crate::callbacks::csvdump::CsvDump;
+use crate::callbacks::jsondump::JsonDump;
 use crate::callbacks::stats::SimpleStats;
 use crate::callbacks::unspentcsvdump::UnspentCsvDump;
 use crate::callbacks::Callback;
@@ -168,6 +169,7 @@ fn parse_args() -> OpResult<RefCell<ParserOptions>> {
         .subcommand(CsvDump::build_subcommand())
         .subcommand(SimpleStats::build_subcommand())
         .subcommand(Balances::build_subcommand())
+        .subcommand(JsonDump::build_subcommand())
         .get_matches();
 
     let verify = matches.is_present("verify");
@@ -192,6 +194,8 @@ fn parse_args() -> OpResult<RefCell<ParserOptions>> {
         callback = Box::new(SimpleStats::new(matches)?);
     } else if let Some(ref matches) = matches.subcommand_matches("csvdump") {
         callback = Box::new(CsvDump::new(matches)?);
+    } else if let Some(ref matches) = matches.subcommand_matches("jsondump") {
+        callback = Box::new(JsonDump::new(matches)?);
     } else if let Some(ref matches) = matches.subcommand_matches("unspentcsvdump") {
         callback = Box::new(UnspentCsvDump::new(matches)?);
     } else if let Some(ref matches) = matches.subcommand_matches("balances") {

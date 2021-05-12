@@ -5,10 +5,10 @@ use std::path::PathBuf;
 
 use clap::{App, Arg, ArgMatches, SubCommand};
 
-use crate::blockchain::parser::types::CoinType;
 use crate::blockchain::proto::block::Block;
 use crate::callbacks::{common, Callback};
 use crate::errors::OpResult;
+use crate::{blockchain::parser::types::CoinType, common::utils};
 
 /// Dumps all addresses with non-zero balance in a csv file
 pub struct Balances {
@@ -75,6 +75,7 @@ impl Callback for Balances {
     ///   * address
     fn on_block(&mut self, block: &Block, block_height: u64) -> OpResult<()> {
         for tx in &block.txs {
+            dbg!(utils::arr_to_hex_swapped(&tx.hash));
             common::remove_unspents(&tx, &mut self.unspents);
             common::insert_unspents(&tx, block_height, &mut self.unspents);
         }
